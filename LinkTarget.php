@@ -49,10 +49,15 @@ $wgHooks['OutputPageParserOutput'][] = function ( OutputPage &$out, ParserOutput
 		$wgLinkTargetParentClasses = array( $wgLinkTargetParentClasses );
 	}
 
+	$text = $parseroutput->getText();
+	if ( empty( $text ) ) {
+		return true;
+	}
+
 	/** @todo Support framename? */
 	$validTargets = array( '_blank', '_self', '_parent', '_top' );
 
-	$htmlFormatter = new HtmlFormatter( $parseroutput->getText() );
+	$htmlFormatter = new HtmlFormatter( $text );
 	$dom = $htmlFormatter->getDoc();
 	$xpath = new DOMXpath( $dom );
 	foreach ( $wgLinkTargetParentClasses as $target => $parentClasses ) {
