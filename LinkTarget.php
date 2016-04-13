@@ -41,7 +41,6 @@ $wgMessagesDirs['LinkTarget'] = __DIR__ . '/i18n';
 $wgHooks['OutputPageParserOutput'][] = function ( OutputPage &$out, ParserOutput $parseroutput ) {
 	global $wgLinkTargetParentClasses, $wgLinkTargetDefault;
 
-	wfProfileIn( 'LinkTarget' );
 	if ( empty( $wgLinkTargetParentClasses ) ) {
 		// Save all that processing
 		return true;
@@ -57,7 +56,7 @@ $wgHooks['OutputPageParserOutput'][] = function ( OutputPage &$out, ParserOutput
 	/** @todo Support framename? */
 	$validTargets = array( '_blank', '_self', '_parent', '_top' );
 
-	$htmlFormatter = new HtmlFormatter( $text );
+	$htmlFormatter = new HtmlFormatter\HtmlFormatter( $text );
 	$dom = $htmlFormatter->getDoc();
 	$xpath = new DOMXpath( $dom );
 	foreach ( $wgLinkTargetParentClasses as $target => $parentClasses ) {
@@ -77,7 +76,6 @@ $wgHooks['OutputPageParserOutput'][] = function ( OutputPage &$out, ParserOutput
 	}
 	$parseroutput->setText( $htmlFormatter->getText() );
 
-	wfProfileOut( 'LinkTarget' );
 	return true;
 };
 
