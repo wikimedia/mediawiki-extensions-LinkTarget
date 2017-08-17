@@ -9,6 +9,7 @@
  * @author Ike Hecht, 2015
  * @license GNU General Public Licence 2.0 or later
  */
+
 if ( !defined( 'MEDIAWIKI' ) ) {
 	echo <<<EOT
 To install this extension, put the following line in LocalSettings.php:
@@ -16,6 +17,7 @@ require_once "$IP/extensions/LinkTarget/LinkTarget.php";
 EOT;
 	exit( 1 );
 }
+
 $wgExtensionCredits['other'][] = array(
 	'path' => __FILE__,
 	'name' => 'LinkTarget',
@@ -25,6 +27,7 @@ $wgExtensionCredits['other'][] = array(
 	'version' => '0.1.0',
 	'url' => 'https://www.mediawiki.org/wiki/Extension:LinkTarget',
 	'descriptionmsg' => 'linktarget-desc',
+	'license-name' => 'GPL-2.0+'
 );
 
 $wgMessagesDirs['LinkTarget'] = __DIR__ . '/i18n';
