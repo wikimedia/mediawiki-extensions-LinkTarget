@@ -2,7 +2,7 @@
 /**
  * Adds a target attribute to specified links
  *
- * For more info see http://mediawiki.org/wiki/Extension:LinkTarget
+ * For more info see https://mediawiki.org/wiki/Extension:LinkTarget
  *
  * @file
  * @ingroup Extensions
