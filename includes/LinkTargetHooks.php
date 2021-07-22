@@ -13,7 +13,7 @@ class LinkTargetHooks implements OutputPageParserOutputHook {
 	 * @param OutputPage $out
 	 * @param ParserOutput $parseroutput
 	 */
-	public function onOutputPageParserOutput( $out, $parseroutput ) : void {
+	public function onOutputPageParserOutput( $out, $parseroutput ): void {
 		$config = $out->getConfig();
 		$linkTargetParentClasses = $config->get( 'LinkTargetParentClasses' );
 		$linkTargetDefault = $config->get( 'LinkTargetDefault' );
