@@ -27,7 +27,7 @@ class LinkTargetHooks implements OutputPageParserOutputHook {
 			$linkTargetParentClasses = [ $linkTargetParentClasses ];
 		}
 
-		$text = $parseroutput->getText();
+		$text = $parseroutput->getRawText();
 		if ( !$text ) {
 			return;
 		}
