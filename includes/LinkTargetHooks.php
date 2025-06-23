@@ -35,6 +35,26 @@ class LinkTargetHooks implements OutputPageParserOutputHook {
 		/** @todo Support framename? */
 		$validTargets = [ '_blank', '_self', '_parent', '_top' ];
 
+		/**
+		 * this is only needed for 1.39 and down since in 1.43 a different way is introduced
+		 * <meta property="mw:PageProp/toc" />
+		 * instead of
+		 * <mw:tocplace></mw:tocplace>
+		 *
+		 * Work around HtmlFormatter's handling of MediaWiki TOC elements.
+		 *
+		 * HtmlFormatter->getDoc() uses loadHTML() which replaces <mw:tocplace></mw:tocplace>
+		 * to <tocplace></tocplace>, stripping the namespace prefix. This breaks the parser's
+		 * ability to locate and replace TOC markers with actual table of contents.
+		 *
+		 * To prevent this, we pre-process the text by replacing TOC markers with the
+		 * generated TOC HTML before passing it to HtmlFormatter.
+		 */
+		if ( method_exists( $parseroutput, 'getTOCHTML' ) ) {
+			// @phan-suppress-next-line PhanUndeclaredMethod
+			$tocHtml = $parseroutput->getTOCHTML();
+			$text = \Parser::replaceTableOfContentsMarker( $text, $tocHtml );
+		}
 		$htmlFormatter = new HtmlFormatter( $text );
 		$dom = $htmlFormatter->getDoc();
 		$xpath = new DOMXpath( $dom );
