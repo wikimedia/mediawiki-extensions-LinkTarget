@@ -4,16 +4,15 @@ namespace MediaWiki\Extension\LinkTarget;
 
 use DOMXPath;
 use HtmlFormatter\HtmlFormatter;
-use MediaWiki\Hook\OutputPageParserOutputHook;
+use MediaWiki\Hook\OutputPageBeforeHTMLHook;
 use OutputPage;
-use ParserOutput;
 
-class LinkTargetHooks implements OutputPageParserOutputHook {
+class LinkTargetHooks implements OutputPageBeforeHTMLHook {
 	/**
 	 * @param OutputPage $out
-	 * @param ParserOutput $parseroutput
+	 * @param string &$text
 	 */
-	public function onOutputPageParserOutput( $out, $parseroutput ): void {
+	public function onOutputPageBeforeHTML( $out, &$text ): void {
 		$config = $out->getConfig();
 		$linkTargetParentClasses = $config->get( 'LinkTargetParentClasses' );
 		$linkTargetDefault = $config->get( 'LinkTargetDefault' );
@@ -27,7 +26,6 @@ class LinkTargetHooks implements OutputPageParserOutputHook {
 			$linkTargetParentClasses = [ $linkTargetParentClasses ];
 		}
 
-		$text = $parseroutput->getRawText();
 		if ( !$text ) {
 			return;
 		}
@@ -53,6 +51,6 @@ class LinkTargetHooks implements OutputPageParserOutputHook {
 				}
 			}
 		}
-		$parseroutput->setText( $htmlFormatter->getText() );
+		$text = $htmlFormatter->getText();
 	}
 }
