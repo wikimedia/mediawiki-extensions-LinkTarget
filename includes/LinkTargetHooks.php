@@ -2,10 +2,10 @@
 
 namespace MediaWiki\Extension\LinkTarget;
 
-use DOMXPath;
-use HtmlFormatter\HtmlFormatter;
 use MediaWiki\Hook\OutputPageBeforeHTMLHook;
 use OutputPage;
+use Wikimedia\Parsoid\Utils\DOMCompat;
+use Wikimedia\Parsoid\Utils\DOMUtils;
 
 class LinkTargetHooks implements OutputPageBeforeHTMLHook {
 	/**
@@ -33,9 +33,7 @@ class LinkTargetHooks implements OutputPageBeforeHTMLHook {
 		/** @todo Support framename? */
 		$validTargets = [ '_blank', '_self', '_parent', '_top' ];
 
-		$htmlFormatter = new HtmlFormatter( $text );
-		$dom = $htmlFormatter->getDoc();
-		$xpath = new DOMXpath( $dom );
+		$dom = DOMUtils::parseHTML( $text );
 		foreach ( $linkTargetParentClasses as $target => $parentClasses ) {
 			if ( !is_array( $parentClasses ) ) {
 				$parentClasses = [ $parentClasses ];
@@ -44,13 +42,12 @@ class LinkTargetHooks implements OutputPageBeforeHTMLHook {
 				if ( !in_array( $target, $validTargets, true ) ) {
 					$target = $linkTargetDefault;
 				}
-				$nodes = $xpath->query(
-					"//*[contains(concat(' ', normalize-space(@class), ' '), ' {$parentClass} ')]//a" );
+				$nodes = DOMCompat::querySelectorAll( $dom, ".{$parentClass} a" );
 				foreach ( $nodes as $node ) {
 					$node->setAttribute( 'target', $target );
 				}
 			}
 		}
-		$text = $htmlFormatter->getText();
+		$text = DOMCompat::getInnerHTML( DOMCompat::getBody( $dom ) );
 	}
 }
