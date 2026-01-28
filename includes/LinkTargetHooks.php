@@ -4,8 +4,8 @@ namespace MediaWiki\Extension\LinkTarget;
 
 use MediaWiki\Hook\OutputPageBeforeHTMLHook;
 use OutputPage;
+use Wikimedia\Parsoid\Ext\DOMUtils;
 use Wikimedia\Parsoid\Utils\DOMCompat;
-use Wikimedia\Parsoid\Utils\DOMUtils;
 
 class LinkTargetHooks implements OutputPageBeforeHTMLHook {
 	/**
