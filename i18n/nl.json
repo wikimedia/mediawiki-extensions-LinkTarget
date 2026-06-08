@@ -2,8 +2,9 @@
 	"@metadata": {
 		"authors": [
 			"Esketti",
-			"QZanden"
+			"QZanden",
+			"Siebrand"
 		]
 	},
-	"linktarget-desc": "Voegt een target-attribuut toe aan de opgegeven links"
+	"linktarget-desc": "Voegt een target-attribuut toe aan de opgegeven koppelingen"
 }
